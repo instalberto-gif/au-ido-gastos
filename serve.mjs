@@ -1,0 +1,4 @@
+import http from 'node:http';import {readFile} from 'node:fs/promises';import path from 'node:path';
+const base=process.cwd(),types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'application/javascript; charset=utf-8','.mjs':'application/javascript; charset=utf-8','.svg':'image/svg+xml'};
+const files=new Set(['index.html','style.css','app.js','config.js','store.js','icon.svg','lib/accounts.mjs']);
+http.createServer(async(req,res)=>{let p;try{p=decodeURIComponent(new URL(req.url,'http://localhost').pathname).slice(1)||'index.html';}catch{res.writeHead(400).end();return;}if(!files.has(p)){res.writeHead(404).end();return;}try{const bytes=await readFile(path.join(base,p));res.writeHead(200,{'Content-Type':types[path.extname(p)]||'application/octet-stream','Cache-Control':'no-store'}).end(bytes);}catch{res.writeHead(404).end();}}).listen(8794,'127.0.0.1',()=>console.log('Local: http://127.0.0.1:8794'));
