@@ -1,2 +1,4 @@
-// Solo URL y clave publicable/anon. Nunca uses una clave secret ni service_role.
-window.AU_IDO_CONFIG = { supabaseUrl: '', supabaseKey: '' };
+window.AU_IDO_CONFIG = {
+  supabaseUrl: 'https://lqktabjbvszyveempevc.supabase.co',
+  supabaseKey: 'sb_publishable_yY7mZ2AEdzyG5eRzjJRWCg_KRHqy0Zs'
+};
