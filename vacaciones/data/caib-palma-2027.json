@@ -1,0 +1,79 @@
+{
+  "provider": "CAIB",
+  "year": 2027,
+  "municipality": "Palma",
+  "source": "https://www.caib.es/eboibfront/pdf/es/2026/122/1229310",
+  "fetched_at": "2026-11-03T12:27:41.010Z",
+  "holidays": [
+    {
+      "date": "2027-01-01",
+      "name": "Año Nuevo",
+      "scope": "general"
+    },
+    {
+      "date": "2027-01-06",
+      "name": "Epifanía del Señor",
+      "scope": "general"
+    },
+    {
+      "date": "2027-01-20",
+      "name": "San Sebastián",
+      "scope": "palma"
+    },
+    {
+      "date": "2027-03-01",
+      "name": "Día de las Illes Balears",
+      "scope": "general"
+    },
+    {
+      "date": "2027-03-25",
+      "name": "Jueves Santo",
+      "scope": "general"
+    },
+    {
+      "date": "2027-03-26",
+      "name": "Viernes Santo",
+      "scope": "general"
+    },
+    {
+      "date": "2027-03-29",
+      "name": "Lunes de Pascua",
+      "scope": "general"
+    },
+    {
+      "date": "2027-05-01",
+      "name": "Fiesta del Trabajo",
+      "scope": "general"
+    },
+    {
+      "date": "2027-06-24",
+      "name": "San Juan",
+      "scope": "palma"
+    },
+    {
+      "date": "2027-10-12",
+      "name": "Fiesta Nacional",
+      "scope": "general"
+    },
+    {
+      "date": "2027-11-01",
+      "name": "Todos los Santos",
+      "scope": "general"
+    },
+    {
+      "date": "2027-12-06",
+      "name": "Día de la Constitución",
+      "scope": "general"
+    },
+    {
+      "date": "2027-12-08",
+      "name": "Inmaculada Concepción",
+      "scope": "general"
+    },
+    {
+      "date": "2027-12-25",
+      "name": "Día de Navidad",
+      "scope": "general"
+    }
+  ]
+}

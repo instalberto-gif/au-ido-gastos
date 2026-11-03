@@ -1,0 +1,79 @@
+{
+  "provider": "CAIB",
+  "year": 2026,
+  "municipality": "Palma",
+  "source": "https://www.caib.es/sites/calendarilaboral/es/aao_2026/",
+  "fetched_at": "2026-11-03T12:27:41.010Z",
+  "holidays": [
+    {
+      "date": "2026-01-01",
+      "name": "Año Nuevo",
+      "scope": "general"
+    },
+    {
+      "date": "2026-01-06",
+      "name": "Epifanía del Señor",
+      "scope": "general"
+    },
+    {
+      "date": "2026-01-20",
+      "name": "San Sebastián",
+      "scope": "palma"
+    },
+    {
+      "date": "2026-03-02",
+      "name": "Día siguiente del Día de les Illes Balears",
+      "scope": "general"
+    },
+    {
+      "date": "2026-04-02",
+      "name": "Jueves Santo",
+      "scope": "general"
+    },
+    {
+      "date": "2026-04-03",
+      "name": "Viernes Santo",
+      "scope": "general"
+    },
+    {
+      "date": "2026-04-06",
+      "name": "Lunes de Pascua",
+      "scope": "general"
+    },
+    {
+      "date": "2026-05-01",
+      "name": "Día del Trabajador",
+      "scope": "general"
+    },
+    {
+      "date": "2026-06-24",
+      "name": "San Juan",
+      "scope": "palma"
+    },
+    {
+      "date": "2026-08-15",
+      "name": "Asunción de la Virgen",
+      "scope": "general"
+    },
+    {
+      "date": "2026-10-12",
+      "name": "Fiesta Nacional",
+      "scope": "general"
+    },
+    {
+      "date": "2026-12-08",
+      "name": "Inmaculada Concepción",
+      "scope": "general"
+    },
+    {
+      "date": "2026-12-25",
+      "name": "Día de Navidad",
+      "scope": "general"
+    },
+    {
+      "date": "2026-12-26",
+      "name": "Segunda fiesta de Navidad",
+      "scope": "general"
+    }
+  ]
+}

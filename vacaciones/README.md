@@ -33,3 +33,14 @@ Los datos personales no se incrustan en este repositorio público. Se guardan tr
 El calendario común de festivos supone el mismo calendario laboral para todas las personas. No interpreta turnos, medias jornadas ni teletrabajo. Los cambios requieren Internet y un guardado confirmado; no hay guardado local silencioso. No se reserva ni se solicita ninguna vacación a empresas.
 
 Comprobaciones de lógica realizadas: plan previo de 25 días, 8 solicitados de marzo, no duplicación de solapamientos, años bisiestos, importación CSV/JSON/ICS y distribución de festivos entre varios años, conservación de periodos y bolsas, reimportación sin duplicados y rechazo de fechas inválidas, y generación de 12 meses. Queda pendiente comprobar visualmente en navegador y probar las políticas con dos cuentas autorizadas y otra sin acceso después de activar SQL.
+
+
+## Botón CAIB · Palma
+
+El botón usa el año seleccionado. Intenta leer en directo la página anual española de CAIB. Exige una cabecera del año correcto, 12 festivos generales y 2 de una fila llamada exactamente Palma (no Palmanyola), 14 fechas distintas y una fuente HTTPS de CAIB. Si CORS o la publicación impiden la lectura directa, descarga una copia oficial verificada desde `vacaciones/data/caib-palma-AAAA.json` en la rama principal mediante raw.githubusercontent.com. La pantalla indica el origen y la fecha real de consulta. No se calculan fiestas, no se copian de otro año y no se importan conjuntos parciales.
+
+Se incluyen copias verificadas de 2026 (página CAIB) y 2027 (BOIB oficial, resolución 9716, número 122 del 29/09/2026). Las copias se actualizan a diario a las 05:30 UTC mediante `.github/workflows/caib-festivos.yml`; también se puede ejecutar desde Actions → Actualizar festivos CAIB → Run workflow. La actualización automática añade o renueva las copias oficiales, pero no altera el calendario compartido: cada usuario debe pulsar el botón para incorporarlas. Comprueba la fecha mostrada antes de usarlas. Si Actions se desactiva, la última copia permanece con su fecha visible.
+
+La sincronización requiere iniciar sesión y guardar con éxito en Supabase. Conserva vacaciones, bolsas, otros años y festivos manuales/importados. Solo sustituye los registros marcados `origin: CAIB`, para retirar una fecha oficial obsoleta sin borrar festivos propios. Una fecha manual que coincida con una oficial se actualiza con la información oficial. Los dos festivos locales aparecen como Local Palma; los nacionales/autonómicos aplicables como General Baleares.
+
+`scripts/update_caib.py` usa la página anual oficial y, para 2027, el PDF BOIB exacto como alternativa. Si una fuente cambia o el año aún no está disponible, conserva la copia anterior y registra el fallo; nunca genera datos provisionales. Las pruebas están en `vacaciones/tests/test_caib.py`.
