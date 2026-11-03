@@ -1,4 +1,12 @@
-# AU Ido · Cuentas de viaje
+# AU Ido · Portal del grupo
+
+La raíz es ahora el portal. Aplicaciones: **Gastos** en `gastos/` y **Vacaciones** en `vacaciones/`. La dirección habitual del repositorio abre el portal. Los enlaces de ambas aplicaciones vuelven al inicio. Los archivos de lógica de gastos y sus claves de almacenamiento se conservan en la raíz: la navegación cambia, los datos no se migran ni se duplican.
+
+Las cuentas autorizadas usan la misma sesión en este origen. El portal no crea cuentas ni concede permisos: cada aplicación exige autorización en Supabase. El módulo de Vacaciones mantiene pendiente su activación según `vacaciones/README.md` si aún no se ha ejecutado `vacaciones/setup.sql`.
+
+Para abrir Gastos directamente añade `/gastos/` a la URL de GitHub Pages. Para Vacaciones añade `/vacaciones/`. `build.mjs` y `serve.mjs` incluyen ambas rutas. La documentación siguiente describe la aplicación de gastos.
+
+## Gastos · Cuentas de viaje
 
 App web para móvil y ordenador, basada en la tabla de Alberto. Reparte por parejas, no por personas. Código sin dependencias y preparado para GitHub Pages.
 
