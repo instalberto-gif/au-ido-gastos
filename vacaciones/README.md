@@ -23,7 +23,7 @@ Los datos personales no se incrustan en este repositorio público. Se guardan tr
 - Se descuentan fines de semana y festivos; un solapamiento de vacaciones no se cuenta dos veces.
 - Comparación por personas incluyendo descansos inmediatamente contiguos.
 - Festivos comunes por año: alta manual, eliminación o importación con revisión CSV/JSON/ICS. No admite recurrencias ICS ni eventos de varios días.
-- CSV: cabecera `fecha;nombre`, fechas ISO o DD/MM/AAAA. JSON: array con `date` y `name`. Las fechas deben pertenecer al año seleccionado.
+- CSV: cabecera `fecha;nombre`, fechas ISO o DD/MM/AAAA. JSON: array con `date` y `name`. Un archivo puede incluir varios años entre 2000 y 2100. La revisión agrupa los festivos por año y el guardado actualiza cada lista sin borrar vacaciones, bolsas ni otros festivos. El selector de año no limita la importación.
 - Copias JSON de todos los años y personas. La importación de planificación reemplaza el calendario completo tras una revisión.
 - Acceso desde dispositivos distintos con la misma cuenta o cuentas autorizadas. Pulsa Actualizar datos para recoger cambios hechos en otro dispositivo.
 - Control de revisión ante edición simultánea: actualiza y repite tu cambio si otra persona ha guardado antes.
@@ -32,4 +32,4 @@ Los datos personales no se incrustan en este repositorio público. Se guardan tr
 
 El calendario común de festivos supone el mismo calendario laboral para todas las personas. No interpreta turnos, medias jornadas ni teletrabajo. Los cambios requieren Internet y un guardado confirmado; no hay guardado local silencioso. No se reserva ni se solicita ninguna vacación a empresas.
 
-Comprobaciones de lógica realizadas: plan previo de 25 días, 8 solicitados de marzo, no duplicación de solapamientos, años bisiestos, importación CSV/JSON/ICS y rechazo de festivos de otro año, y generación de 12 meses. Queda pendiente comprobar visualmente en navegador y probar las políticas con dos cuentas autorizadas y otra sin acceso después de activar SQL.
+Comprobaciones de lógica realizadas: plan previo de 25 días, 8 solicitados de marzo, no duplicación de solapamientos, años bisiestos, importación CSV/JSON/ICS y distribución de festivos entre varios años, conservación de periodos y bolsas, reimportación sin duplicados y rechazo de fechas inválidas, y generación de 12 meses. Queda pendiente comprobar visualmente en navegador y probar las políticas con dos cuentas autorizadas y otra sin acceso después de activar SQL.
