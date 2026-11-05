@@ -127,3 +127,11 @@ En Editar viaje se seleccionan cuentas registradas, con correo confirmado y auto
 Guardar con participantes usa una única transacción: actualiza los datos y concede acceso de consulta a las cuentas seleccionadas. Desmarcar retira solo los permisos concedidos por participación; los accesos manuales de Compartir se conservan. Los nombres antiguos se muestran aparte y no se convierten en identidades. Pueden retirarse al guardar si el propietario lo decide. Importar o recuperar un viaje conserva los nombres como anteriores y no restaura permisos ni usuarios participantes vinculados.
 
 La lista devuelve únicamente identificador, correo y nombre de los miembros registrados y confirmados. Usuarios ajenos y anónimos no pueden consultarla. Las pruebas SQL se ejecutan en una base desechable, no en el proyecto real de Supabase.
+
+## Google My Maps por viaje
+
+Editar viaje permite elegir Mapa GPX o Google My Maps y pegar el enlace de edición, consulta o inserción. Solo se admiten enlaces HTTPS de Google con identificador mid; se normalizan a visor e inserción, sin conservar el número de cuenta de Google. El mapa se guarda en el JSON privado del viaje como myMapsUrl/mapProvider. No se publica ningún mapa del usuario en el código.
+
+La pestaña Mapa carga el iframe de My Maps solo al abrirse. Ofrece un enlace externo para los bloqueos de Google. Se conservan las rutas GPX y se puede volver a mostrarlas desde Editar viaje. Cambiar el viaje no modifica las capas ni los puntos originales de My Maps. Los permisos de Google son independientes: Google exige publicar el mapa para insertarlo públicamente. No se han comprobado los permisos de los mapas particulares desde esta herramienta.
+
+Un enlace a Viajes con los parámetros mymaps=IDENTIFICADOR y suggested=AAAA-NN prepara el formulario si hay exactamente un viaje propio cuyo nombre empiece por ese código. No guarda cambios automáticamente. Si hay varias coincidencias o ninguna, muestra la búsqueda y el enlace que debe pegarse. Los parámetros se limpian de la URL después de preparar el formulario.
