@@ -1,3 +1,4 @@
+import {verifyExpenseTravel} from './lib/expense-links.mjs';
 const cfg=window.AU_IDO_CONFIG||{};
 const url=String(cfg.supabaseUrl||'').replace(/\/$/,'');
 export const shared=!!(url&&cfg.supabaseKey);
@@ -46,7 +47,7 @@ export async function consumeAuthCallback(){const params=new URLSearchParams(loc
 function identity(s){try{return JSON.parse(atob(s.access_token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).sub||s.access_token}catch{return s?.access_token||null}}
 export function watchSession(callback){window.addEventListener('storage',e=>{if(e.key===null){callback();return}if(e.key!==KEY)return;try{const old=e.oldValue?JSON.parse(e.oldValue):null,current=getSession();if(identity(old)!==identity(current))callback()}catch{callback()}})}
 export async function list(){if(!shared)return JSON.parse(localStorage.getItem('au-ido-trips')||'[]');await checkAccess();return(await api('/rest/v1/au_ido_trips?select=data,revision,updated_at&order=updated_at.desc')).map(r=>({...r.data,revision:r.revision,updatedAt:r.updated_at}))}
-export async function save(trip){const {revision,updatedAt,...data}=trip,next={...data,revision:(revision||0)+1,updatedAt:new Date().toISOString()};if(!shared){const all=await list(),old=all.find(t=>t.id===trip.id);if(old&&old.revision!==revision)throw Error('Otra pestaña ha modificado este viaje. Actualiza antes de guardar.');localStorage.setItem('au-ido-trips',JSON.stringify([...all.filter(t=>t.id!==trip.id),next]));return next}
+export async function save(trip){if(!shared)throw Error('Para crear o modificar cuentas necesitas entrar y elegir un viaje existente en Viajes.');await verifyExpenseTravel(api,trip);const {revision,updatedAt,...data}=trip,next={...data,revision:(revision||0)+1,updatedAt:new Date().toISOString()};if(!shared){const all=await list(),old=all.find(t=>t.id===trip.id);if(old&&old.revision!==revision)throw Error('Otra pestaña ha modificado este viaje. Actualiza antes de guardar.');localStorage.setItem('au-ido-trips',JSON.stringify([...all.filter(t=>t.id!==trip.id),next]));return next}
  const rows=revision?await api('/rest/v1/au_ido_trips?id=eq.'+encodeURIComponent(trip.id)+'&revision=eq.'+revision,{method:'PATCH',headers:{Prefer:'return=representation'},body:JSON.stringify({data,revision:next.revision,updated_at:next.updatedAt})}):await api('/rest/v1/au_ido_trips',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify({id:trip.id,data,revision:1,updated_at:next.updatedAt})});if(!rows?.length)throw Error('Otra persona ha modificado este viaje. Actualiza los datos antes de volver a guardar.');return next;
 }
 

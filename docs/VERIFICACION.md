@@ -45,3 +45,13 @@ Usar perfiles de navegador separados. No compartir contraseñas ni copiarlas a a
 ## Mantenimiento
 
 Recomendación: descargar una copia por semana de actividad y antes de importaciones o cambios importantes. Mantener al menos cuatro copias semanales. Las fechas del aviso se guardan por cuenta en cada navegador y no se sincronizan. Para una copia automática del servidor hace falta configurar una tarea y un destino privado con acceso administrativo; no se ha activado ni se han almacenado claves administrativas en GitHub.
+
+## Activar el vínculo obligatorio de cuentas y viajes
+
+1. Descargar una copia completa desde la portada.
+2. Abrir `gastos-vincular-viajes.sql` en GitHub, copiar su contenido y ejecutarlo en una consulta nueva del SQL Editor del mismo proyecto Supabase. No ejecutar los archivos de `tests/sql/`: son solo de la base de pruebas.
+3. Si aparecen cuentas pendientes como resultado final, sus datos se han conservado: abrir cada una en Gastos y pulsar «Vincular viaje».
+4. Comprobar que no se puede crear una cuenta sin seleccionar un viaje; que las importaciones requieren una selección para cada cuenta; y que los gastos y abonos antiguos se conservan al vincular.
+5. Verificar que el servidor rechaza un alta sin `data.travelId`, un identificador inexistente y un viaje no accesible al creador. El propietario tampoco puede borrar un viaje que tenga cuentas vinculadas.
+
+No existe un modo de creación independiente en almacenamiento local: el viaje tiene que existir en la aplicación compartida. Si se modifica el nombre del viaje después, no se sincroniza automáticamente; elegirlo de nuevo al cambiar la vinculación actualiza el nombre de la cuenta.

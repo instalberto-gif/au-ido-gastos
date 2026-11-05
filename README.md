@@ -101,3 +101,11 @@ Las pruebas cubren el ejemplo del Excel, céntimos, selección de participantes,
 - https://supabase.com/docs/guides/database/postgres/row-level-security
 - https://supabase.com/docs/guides/auth/passwords
 
+
+## Cuentas de gastos vinculadas a Viajes
+
+La creación de cuentas exige seleccionar un viaje existente y consultable por el usuario. La cuenta toma su nombre. Si no hay viajes disponibles, hay que crear uno en Viajes o solicitar acceso al propietario. Las importaciones también exigen elegir el viaje de cada cuenta. Los datos antiguos se conservan y pueden exportarse; antes de guardar cambios hay que vincularlos con el botón «Vincular viaje».
+
+La aplicación comprueba el vínculo antes de guardar. Para que la misma regla sea obligatoria en el servidor, el administrador debe ejecutar una vez [`gastos-vincular-viajes.sql`](gastos-vincular-viajes.sql) en el SQL Editor del proyecto existente. No vuelve a ejecutar `schema.sql`. El script añade una clave foránea y un trigger, conserva las cuentas antiguas pendientes y evita borrar un viaje con cuentas vinculadas. No concede acceso a viajes privados. La edición compartida de Gastos se mantiene para el grupo aunque un miembro no pueda consultar el viaje privado asociado.
+
+El script se prueba con las tablas y políticas reales del repositorio en una base PostgreSQL desechable de GitHub Actions. Esa prueba no ejecuta cambios en Supabase. Los archivos de `tests/sql/` son exclusivos de pruebas y no deben ejecutarse en producción.

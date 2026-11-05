@@ -1,0 +1,38 @@
+name: Comprobar vínculos de gastos en PostgreSQL
+on:
+  push:
+    branches: [main]
+    paths: ['gastos-vincular-viajes.sql', 'tests/sql/**', 'schema.sql', 'viajes/setup.sql', '.github/workflows/expense-links.yml']
+  pull_request:
+    paths: ['gastos-vincular-viajes.sql', 'tests/sql/**', 'schema.sql', 'viajes/setup.sql', '.github/workflows/expense-links.yml']
+permissions:
+  contents: read
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: test-only-password
+          POSTGRES_DB: au_ido_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Probar migración y permisos en base desechable
+        env:
+          PGPASSWORD: test-only-password
+        run: >-
+          psql -h localhost -U postgres -d au_ido_test -v ON_ERROR_STOP=1
+          -f tests/sql/bootstrap.sql
+          -f schema.sql
+          -f viajes/setup.sql
+          -f tests/sql/seed-expense-links.sql
+          -f gastos-vincular-viajes.sql
+          -f tests/sql/verify-expense-links.sql
