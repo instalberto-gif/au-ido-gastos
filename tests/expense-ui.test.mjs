@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';
 import * as accounts from '../lib/accounts.mjs';import {readLinkedTravel,validTravelId} from '../lib/travel-links.mjs';
-const source=(await readFile(new URL('../app.js',import.meta.url),'utf8')).replace(/^import .*;$/gm,'').replace('render();load().then(openLinkedTravel);','');
+const source='const location={search:""};\n'+(await readFile(new URL('../app.js',import.meta.url),'utf8')).replace(/^import .*;$/gm,'').replace('render();load().then(openLinkedTravel);','');
 const tripId='11111111-1111-4111-8111-111111111111';
 function app(catalog=[]){const nodes=new Map(),node=id=>{if(!nodes.has(id))nodes.set(id,{innerHTML:'',textContent:'',disabled:false,open:false,values:{},classList:{add(){},remove(){}},showModal(){this.open=true},close(){this.open=false}});return nodes.get(id)};const saved=[];
  const store={shared:true,loggedIn:()=>true,checkAccess:async()=>{},watchSession(){},api:async path=>{const match=path.match(/[?&]id=eq\.([^&]+)/);return match?catalog.filter(t=>t.id===decodeURIComponent(match[1])):catalog},save:async t=>{saved.push(t);return {...t,revision:1}}};

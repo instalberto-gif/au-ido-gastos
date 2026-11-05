@@ -55,3 +55,15 @@ Recomendación: descargar una copia por semana de actividad y antes de importaci
 5. Verificar que el servidor rechaza un alta sin `data.travelId`, un identificador inexistente y un viaje no accesible al creador. El propietario tampoco puede borrar un viaje que tenga cuentas vinculadas.
 
 No existe un modo de creación independiente en almacenamiento local: el viaje tiene que existir en la aplicación compartida. Si se modifica el nombre del viaje después, no se sincroniza automáticamente; elegirlo de nuevo al cambiar la vinculación actualiza el nombre de la cuenta.
+
+## Ficha visual de Viajes
+
+- Comprobar las dos tarjetas de la portada: Viajes y Vacaciones. Gastos se abre desde cada ficha.
+- Subir una portada JPEG, PNG o WebP; guardar, abrir desde otro dispositivo y comprobar que se conserva. Cancelar una foto no debe cambiar otro viaje. Los viajes sin foto usan una ilustración local.
+- Elegir un periodo de Vacaciones al crear: comprobar nombre de persona, fechas y estado. Ajustar las fechas y guardar; el calendario original debe conservarse. Los participantes se introducen por separado.
+- En una ficha, comprobar duración inclusiva, presupuesto opcional y gasto registrado. Un abono no debe aumentar el coste. Revisar y activar/desactivar las casillas de las cuentas, especialmente las posibles copias.
+- Abrir Gastos desde el viaje, crear una cuenta y volver a la ficha: solo deben mostrarse cuentas vinculadas a ese viaje; actualizar la ficha si aún no aparece el nuevo importe.
+- Probar las cinco pestañas con teclado y en móvil. Añadir GPX como propietario y comprobar que editar notas o portada conserva las rutas.
+- Abrir el enlace de una ficha como lector: puede consultar, pero no editar, cambiar la foto, modificar participantes ni cambiar las casillas del coste. Un enlace sin permiso no debe devolver el viaje.
+
+Las pruebas de interfaz automatizadas usan elementos simulados. La visualización real del mapa, compresión de fotos y adaptación visual requieren comprobación en el navegador del usuario.

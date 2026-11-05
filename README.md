@@ -1,6 +1,6 @@
 # AU Ido · Portal del grupo
 
-Portal en `index.html`, con Conexión y acceso en el menú superior derecho. Una cuenta de Supabase para **Gastos**, **Vacaciones** y **Viajes**. El menú permite registrarse, entrar, cerrar sesión y recuperar la contraseña. Muestra el correo validado del usuario conectado. `store.js` gestiona la autenticación y renovación de sesión común para las tres aplicaciones.
+Portal en `index.html`, con dos accesos principales: Viajes y Vacaciones. Los gastos se gestionan desde la ficha de cada viaje. Conexión y acceso se encuentra en el menú superior derecho. Una cuenta de Supabase para **Gastos**, **Vacaciones** y **Viajes**. El menú permite registrarse, entrar, cerrar sesión y recuperar la contraseña. Muestra el correo validado del usuario conectado. `store.js` gestiona la autenticación y renovación de sesión común para las tres aplicaciones.
 
 - **Gastos:** `gastos/`. Todos los miembros autorizados pueden consultar y editar las cuentas del grupo.
 - **Vacaciones:** `vacaciones/`. Calendario compartido; sus perfiles de personas no son cuentas de acceso. Todos los miembros autorizados pueden editarlo.
@@ -109,3 +109,13 @@ La creación de cuentas exige seleccionar un viaje existente y consultable por e
 La aplicación comprueba el vínculo antes de guardar. Para que la misma regla sea obligatoria en el servidor, el administrador debe ejecutar una vez [`gastos-vincular-viajes.sql`](gastos-vincular-viajes.sql) en el SQL Editor del proyecto existente. No vuelve a ejecutar `schema.sql`. El script añade una clave foránea y un trigger, conserva las cuentas antiguas pendientes y evita borrar un viaje con cuentas vinculadas. No concede acceso a viajes privados. La edición compartida de Gastos se mantiene para el grupo aunque un miembro no pueda consultar el viaje privado asociado.
 
 El script se prueba con las tablas y políticas reales del repositorio en una base PostgreSQL desechable de GitHub Actions. Esa prueba no ejecuta cambios en Supabase. Los archivos de `tests/sql/` son exclusivos de pruebas y no deben ejecutarse en producción.
+
+## Ficha de viaje
+
+Viajes muestra tarjetas con foto y título. Al abrir una tarjeta se accede a Resumen, Mapa, Gastos, Vacaciones y Notas, con un enlace protegido `viajes/?viaje=UUID`. El propietario puede editar la foto de portada, fechas, participantes, estado, notas y presupuesto. La foto se reduce en el navegador y se guarda con los datos protegidos del viaje; aparece también en sus copias. No se guardan los originales ni una galería de fotos.
+
+Al crear o editar se consultan los periodos incluidos del calendario de vacaciones, con persona, fechas y estado. Seleccionar uno rellena las fechas y guarda su referencia; permite ajustarlas. No se modifican vacaciones ni se añaden participantes automáticamente. La ficha muestra la coincidencia por persona y avisa si sus fechas difieren del periodo de origen.
+
+El coste se calcula con los gastos de las cuentas cuyo `data.travelId` coincide con el viaje. Los abonos entre parejas no suman coste. Las posibles copias se detectan por referencia de origen o movimientos idénticos y se excluyen por defecto del total; el propietario puede revisar las casillas de inclusión. Las preferencias se guardan en el viaje y no eliminan movimientos. El presupuesto usa céntimos y es opcional.
+
+Los datos adicionales se guardan en el JSON existente: no se requieren tablas nuevas para la ficha. Los permisos de Viajes y Gastos se mantienen. Las cuentas antiguas siguen accesibles desde «Copias e importaciones → Vincular cuentas antiguas». Las cuentas abiertas desde una ficha se filtran a ese viaje y ofrecen un enlace de regreso.
