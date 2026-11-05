@@ -1,10 +1,24 @@
 # AU Ido · Portal del grupo
 
-La raíz es ahora el portal. Aplicaciones: **Gastos** en `gastos/` y **Vacaciones** en `vacaciones/`. La dirección habitual del repositorio abre el portal. Los enlaces de ambas aplicaciones vuelven al inicio. Los archivos de lógica de gastos y sus claves de almacenamiento se conservan en la raíz: la navegación cambia, los datos no se migran ni se duplican.
+Portal en `index.html`, con Conexión y acceso en el menú superior derecho. Una cuenta de Supabase para **Gastos**, **Vacaciones** y **Viajes**. El menú permite registrarse, entrar, cerrar sesión y recuperar la contraseña. Muestra el correo validado del usuario conectado. `store.js` gestiona la autenticación y renovación de sesión común para las tres aplicaciones.
 
-Las cuentas autorizadas usan la misma sesión en este origen. El portal no crea cuentas ni concede permisos: cada aplicación exige autorización en Supabase. El módulo de Vacaciones mantiene pendiente su activación según `vacaciones/README.md` si aún no se ha ejecutado `vacaciones/setup.sql`.
+- **Gastos:** `gastos/`. Todos los miembros autorizados pueden consultar y editar las cuentas del grupo.
+- **Vacaciones:** `vacaciones/`. Calendario compartido; sus perfiles de personas no son cuentas de acceso. Todos los miembros autorizados pueden editarlo.
+- **Viajes:** `viajes/`. El propietario edita y elige quién puede consultar cada viaje. Los viajes privados no se convierten en públicos al vincularlos; crear sus cuentas en Gastos sí comparte ese nombre y esas cuentas con todo el grupo, previa confirmación del formulario.
 
-Para abrir Gastos directamente añade `/gastos/` a la URL de GitHub Pages. Para Vacaciones añade `/vacaciones/`. `build.mjs` y `serve.mjs` incluyen ambas rutas. La documentación siguiente describe la aplicación de gastos.
+Desde un viaje se pueden abrir sus cuentas o preparar un periodo de vacaciones. Solo se guarda al confirmar el formulario. Los nombres y fechas se copian en ese momento: no hay sincronización automática de ediciones posteriores entre aplicaciones. Los viajes que cruzan de año necesitan tramos de vacaciones separados.
+
+## Recuperación de contraseña
+
+En la portada, introducir el correo y pulsar «He olvidado mi contraseña». El correo lleva a la portada, que valida la sesión temporal y permite guardar una contraseña de al menos diez caracteres. Después solicita entrar de nuevo. Los tokens del enlace se eliminan del historial antes de validar la sesión. La confirmación de alta también se procesa desde la portada. Mantener la Site URL de Supabase configurada como la dirección completa de esta portada; revisar envío de correo y plantillas.
+
+## Copias y recuperación
+
+La portada permite descargar una copia `au-ido-backup-v1` con los gastos del grupo, su calendario y los viajes propios del usuario actual. No incluye contraseñas, tokens, permisos ni viajes de otros propietarios. Guardar en privado. El aviso semanal se calcula al abrir la portada y se conserva por cuenta en ese navegador; no se han configurado descargas automáticas ni copias administrativas del servidor.
+
+Cada aplicación admite recuperar su parte de esa copia completa. Gastos crea cuentas nuevas; Vacaciones sustituye el calendario tras revisar y confirmar; Viajes crea registros privados conservando rutas y puntos, sin duplicar viajes de la misma copia que ya estén presentes. Viajes también exporta su propia copia `au-ido-viajes-backup-v1`. Las fotografías del ordenador no están sincronizadas ni incluidas.
+
+Consulta [la guía de verificación y mantenimiento](docs/VERIFICACION.md) para configurar las redirecciones, probar permisos con varias cuentas y comprobar la recuperación de copias. Las pruebas automáticas simulan el servidor y no certifican las reglas activas de Supabase.
 
 ## Gastos · Cuentas de viaje
 
@@ -51,7 +65,7 @@ Sin configuración, los datos están solo en ese navegador. Una URL de GitHub Pa
 5. En Authentication / URL Configuration establece Site URL como la URL completa de GitHub Pages (por ejemplo, `https://instalberto-gif.github.io/au-ido-gastos/`). Si mantienes otra URL de prueba, añádela a las redirecciones permitidas según necesites.
 6. Mantén activada la confirmación de correo en el proveedor Email. Configura el envío de correo (SMTP) del proyecto para el uso real del grupo y revisa los límites del proveedor. No se incluye inicio con Google.
 7. Publica el cambio de `config.js`. Cada amigo abre «Conexión y acceso», pulsa «Crear cuenta», confirma el correo y entra con su correo y contraseña. Haber creado una cuenta NO concede acceso sin estar también en `au_ido_members`.
-8. Para una contraseña olvidada, el administrador puede iniciar el restablecimiento desde Authentication / Users del panel de Supabase. La app no incluye un formulario propio de recuperación.
+8. Para una contraseña olvidada, usar «He olvidado mi contraseña» en el portal. El usuario recibe un enlace y elige una nueva contraseña en la propia portada. La entrega del correo depende de la configuración de Supabase.
 
 Los viajes locales no se suben solos. Para transferir uno, descarga su copia JSON, activa el modo compartido y usa «Importar copia» en un viaje (crea primero un viaje vacío si no hay ninguno). Comprueba los importes después de importar. La importación crea una copia y nunca reemplaza el original.
 
@@ -78,7 +92,7 @@ Las pruebas cubren el ejemplo del Excel, céntimos, selección de participantes,
 
 ## Archivos
 
-`index.html`, `style.css`, `app.js`: interfaz. `lib/accounts.mjs`: cálculo en céntimos. `store.js`: almacenamiento local o API compartida. `config.js`: conexión pública. `schema.sql`: tablas y permisos del grupo. `serve.mjs`: servidor de prueba local. `build.mjs`: prepara los ficheros estáticos. La app no importa XLSX directamente; el CSV es una exportación, y la importación admite las copias JSON de la propia app.
+`index.html` y `portal.js`: portada, acceso, ayuda y copia completa. `style.css` y `app.js`: interfaz de Gastos. `lib/accounts.mjs`: cálculo en céntimos. `store.js`: almacenamiento local o API compartida. `config.js`: conexión pública. `schema.sql`: tablas y permisos del grupo. `serve.mjs`: servidor de prueba local. `build.mjs`: prepara los ficheros estáticos. La app no importa XLSX directamente; el CSV es una exportación, y la importación admite las copias JSON de la propia app.
 
 ## Documentación oficial
 
@@ -86,3 +100,4 @@ Las pruebas cubren el ejemplo del Excel, céntimos, selección de participantes,
 - https://supabase.com/docs/guides/api/api-keys
 - https://supabase.com/docs/guides/database/postgres/row-level-security
 - https://supabase.com/docs/guides/auth/passwords
+

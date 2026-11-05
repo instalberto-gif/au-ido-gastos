@@ -44,3 +44,8 @@ Se incluyen copias verificadas de 2026 (página CAIB) y 2027 (BOIB oficial, reso
 La sincronización requiere iniciar sesión y guardar con éxito en Supabase. Conserva vacaciones, bolsas, otros años y festivos manuales/importados. Solo sustituye los registros marcados `origin: CAIB`, para retirar una fecha oficial obsoleta sin borrar festivos propios. Una fecha manual que coincida con una oficial se actualiza con la información oficial. Los dos festivos locales aparecen como Local Palma; los nacionales/autonómicos aplicables como General Baleares.
 
 `scripts/update_caib.py` usa la página anual oficial y, para 2027, el PDF BOIB exacto como alternativa. Si una fuente cambia o el año aún no está disponible, conserva la copia anterior y registra el fallo; nunca genera datos provisionales. Las pruebas están en `vacaciones/tests/test_caib.py`.
+
+
+## Acceso y copia completa
+
+El acceso y la recuperación de contraseña se realizan en el portal. El importador acepta también el apartado de Vacaciones de una copia completa `au-ido-backup-v1`; se mantiene la revisión antes de sustituir el calendario compartido. Desde Viajes se puede preparar una propuesta, seleccionar la persona y revisar las fechas antes de guardar. No hay sincronización posterior automática de fechas.
