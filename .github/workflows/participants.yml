@@ -1,0 +1,38 @@
+name: Comprobar participantes y permisos
+on:
+  push:
+    branches: [main]
+    paths: ['viajes/participantes.sql', 'tests/sql/*participants.sql', '.github/workflows/participants.yml']
+  pull_request:
+    paths: ['viajes/participantes.sql', 'tests/sql/*participants.sql', '.github/workflows/participants.yml']
+permissions:
+  contents: read
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: test-only-password
+          POSTGRES_DB: au_ido_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Probar directorio y permisos en base desechable
+        env:
+          PGPASSWORD: test-only-password
+        run: >-
+          psql -h localhost -U postgres -d au_ido_test -v ON_ERROR_STOP=1
+          -f tests/sql/bootstrap.sql
+          -f schema.sql
+          -f viajes/setup.sql
+          -f tests/sql/verify-participants.sql
+          -f viajes/participantes.sql
+          -f tests/sql/check-participants.sql

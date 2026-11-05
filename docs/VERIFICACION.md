@@ -67,3 +67,11 @@ No existe un modo de creación independiente en almacenamiento local: el viaje t
 - Abrir el enlace de una ficha como lector: puede consultar, pero no editar, cambiar la foto, modificar participantes ni cambiar las casillas del coste. Un enlace sin permiso no debe devolver el viaje.
 
 Las pruebas de interfaz automatizadas usan elementos simulados. La visualización real del mapa, compresión de fotos y adaptación visual requieren comprobación en el navegador del usuario.
+
+## Activar participantes registrados
+
+1. Copiar únicamente `viajes/participantes.sql` y ejecutarlo en una consulta nueva del SQL Editor del mismo proyecto. No ejecutar los archivos de `tests/sql/` en Supabase.
+2. Recargar Viajes y abrir Editar viaje → Participantes registrados. Solo deben aparecer cuentas registradas, confirmadas y presentes en au_ido_members; un perfil del calendario no equivale a una cuenta de acceso.
+3. Seleccionar un compañero, guardar e iniciar con su cuenta en otro navegador. Debe poder consultar el viaje y no editarlo.
+4. Desmarcarlo y guardar: debe perder el acceso concedido por participación. Si también tenía permiso manual, gestionarlo desde Compartir.
+5. Comprobar nombres anteriores y las copias: se conservan como texto, sin conceder permisos ni restaurar cuentas vinculadas automáticamente.

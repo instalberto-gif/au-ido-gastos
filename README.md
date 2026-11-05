@@ -119,3 +119,11 @@ Al crear o editar se consultan los periodos incluidos del calendario de vacacion
 El coste se calcula con los gastos de las cuentas cuyo `data.travelId` coincide con el viaje. Los abonos entre parejas no suman coste. Las posibles copias se detectan por referencia de origen o movimientos idénticos y se excluyen por defecto del total; el propietario puede revisar las casillas de inclusión. Las preferencias se guardan en el viaje y no eliminan movimientos. El presupuesto usa céntimos y es opcional.
 
 Los datos adicionales se guardan en el JSON existente: no se requieren tablas nuevas para la ficha. Los permisos de Viajes y Gastos se mantienen. Las cuentas antiguas siguen accesibles desde «Copias e importaciones → Vincular cuentas antiguas». Las cuentas abiertas desde una ficha se filtran a ese viaje y ofrecen un enlace de regreso.
+
+## Participantes desde usuarios registrados
+
+En Editar viaje se seleccionan cuentas registradas, con correo confirmado y autorizadas en AU Ido. El administrador debe activar una vez `viajes/participantes.sql` en el mismo proyecto Supabase. La aplicación usa funciones autenticadas con comprobación de pertenencia al grupo y de propietario; no necesita claves administrativas en el navegador. Hasta activarlo, la ficha explica que el directorio no está disponible y permite guardar otros campos sin cambiar permisos.
+
+Guardar con participantes usa una única transacción: actualiza los datos y concede acceso de consulta a las cuentas seleccionadas. Desmarcar retira solo los permisos concedidos por participación; los accesos manuales de Compartir se conservan. Los nombres antiguos se muestran aparte y no se convierten en identidades. Pueden retirarse al guardar si el propietario lo decide. Importar o recuperar un viaje conserva los nombres como anteriores y no restaura permisos ni usuarios participantes vinculados.
+
+La lista devuelve únicamente identificador, correo y nombre de los miembros registrados y confirmados. Usuarios ajenos y anónimos no pueden consultarla. Las pruebas SQL se ejecutan en una base desechable, no en el proyecto real de Supabase.
